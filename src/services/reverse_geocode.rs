@@ -9,8 +9,8 @@ pub async fn reverse_geocode(
     let hash = coords.sha_hash();
     let cache_result = ctx.cache.get(&hash).await;
     match cache_result {
-        Ok(r) => Ok(serde_json::from_str(&r).unwrap()),
-        Err(_e) => {
+        Ok(r) if r != "nil" => Ok(serde_json::from_str(&r).unwrap()),
+        _ => {
             let here_result = ctx.here_api.reverse_geocode(&coords).await;
             match here_result {
                 Ok(r) => {

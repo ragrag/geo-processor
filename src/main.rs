@@ -23,7 +23,7 @@ async fn main() -> std::io::Result<()> {
         let auth = HttpAuthentication::bearer(middlewares::auth_middleware);
         App::new()
             .app_data(web::Data::new(ctx.clone()))
-            // .wrap(Logger::default())
+            .wrap(Logger::default())
             .route("/healthz", web::get().to(|| async { HttpResponse::Ok() }))
             .service(
                 scope("")

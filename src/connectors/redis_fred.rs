@@ -13,9 +13,10 @@ pub struct RedisCache {
 impl RedisCache {
     pub async fn new(connection_url: &String, key_prefix: &String) -> RedisCache {
         let config = RedisConfig::from_url(&connection_url).unwrap();
+        let perf = PerformanceConfig::default();
         let policy = ReconnectPolicy::new_exponential(0, 100, 30_000, 2);
-        let client = RedisClient::new(config);
-        let _ = client.connect(Some(policy));
+        let client = RedisClient::new(config, Some(perf), Some(policy));
+        let _ = client.connect();
         let _ = client.wait_for_connect().await.unwrap();
         RedisCache {
             client: client,

@@ -6,9 +6,10 @@ use sha2::{Digest, Sha256};
 pub async fn geocode(address: Address, ctx: &Ctx) -> Result<GeocodeParsedResult, SerializeError> {
     let hash = address.sha_hash();
     let cache_result = ctx.cache.get(&address.sha_hash()).await;
+    println!("cache_result: {:?}", cache_result);
     match cache_result {
-        Ok(r) => Ok(serde_json::from_str(&r).unwrap()),
-        Err(_e) => {
+        Ok(r) if r != "nil" => Ok(serde_json::from_str(&r).unwrap()),
+        _ => {
             let here_result = ctx.here_api.geocode(&address).await;
             match here_result {
                 Ok(r) => {
