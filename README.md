@@ -8,10 +8,8 @@
 
 </div>
 
-
-
 - Battle tested for production environments
-- Supports retries with exponential backoff or 429 Retry-After value if provided by HERE
-- Uses a blazingly fast [redis async client lib](https://docs.rs/fred/latest/fred/)
+- Supports retries with exponential backoff or 429 Retry-After honoring when provided by HERE
+- Blazingly fast [redis async client lib](https://docs.rs/fred/latest/fred/)
 - Structured Logging
 - Custom cache key prefix
